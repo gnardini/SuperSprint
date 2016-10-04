@@ -15,13 +15,7 @@ public class GameController : MonoBehaviour {
     }
 
     private void Awake() {
-        if (instance != null && instance != this) {
-            instance.startGame();
-            Destroy(this.gameObject);
-        }
-
         instance = this;
-        DontDestroyOnLoad( this.gameObject );
     }
 
     void Update() {
