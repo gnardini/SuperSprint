@@ -6,6 +6,7 @@ public class Car : MonoBehaviour {
     public int playerNumber;
 	public CanvasController canvasController;
 
+    protected GameController _gameController;
     private Player _player;
     private Rigidbody _rigidbody;
     private float _speed;
@@ -14,11 +15,15 @@ public class Car : MonoBehaviour {
 	void Start () {
         _speed = 0;
         _rigidbody = GetComponent<Rigidbody>();
+        _gameController = GameController.getInstance();
         initPlayer();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (checkPaused()) {
+            return;
+        }
 		if (Input.GetKey (_player.getUpKey ()))
 			speedUp ();
 		if (Input.GetKey (_player.getDownKey ()))
@@ -30,6 +35,13 @@ public class Car : MonoBehaviour {
 
 		fixedPosition ();
 	}
+
+    protected bool checkPaused() {
+        if (_gameController.isPaused()) {
+            _rigidbody.velocity = Vector3.zero;
+        }
+        return _gameController.isPaused();
+    }
 
 	protected void rotateLeft(){
 		transform.Rotate(0f, -1.5f, 0f);
@@ -47,12 +59,15 @@ public class Car : MonoBehaviour {
 		_speed += 1000 * Time.deltaTime;
 	}
 
-	protected void fixedPosition(){
+	protected void fixedPosition() {
 		transform.position = new Vector3(transform.position.x, 1.75f, transform.position.z);
 		transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
 	}
 
     void FixedUpdate() {
+        if (_gameController.isPaused()) {
+            return;
+        }
         _speed *= 0.98f;
         _rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
     }

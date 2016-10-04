@@ -9,6 +9,7 @@ public class CanvasController : MonoBehaviour {
 	public Text timerText;
 	public Text bestLapText;
 
+    private GameController _gameController;
 	private float timer;
 	private float bestTime;
 	private int totalLaps;
@@ -22,10 +23,14 @@ public class CanvasController : MonoBehaviour {
 		timer = 0f;
 		updateLapsText ();
 		updateBestText ();
+        _gameController = GameController.getInstance();
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (_gameController.isPaused()) {
+            return;
+        }
 		timer += Time.deltaTime;
 		updateTimerText ();
 	}

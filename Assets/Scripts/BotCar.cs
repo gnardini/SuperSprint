@@ -19,7 +19,7 @@ public class BotCar : Car {
 	private int i = 0;
 
 	void Update(){
-		if (index >= points.Length) {
+        if (checkPaused() || index >= points.Length) {
 			return;
 		}
 		Debug.Log (transform.position);
