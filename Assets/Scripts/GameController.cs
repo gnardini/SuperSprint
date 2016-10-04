@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameController : MonoBehaviour {
 
     private static GameController instance;
 
+	static public int playerAmount;
+
     public EndGame endGamePanel;
+	public PauseGame pausePanel;
 
     private bool _isGamePaused;
     private bool _isGameFinished;
@@ -19,7 +23,7 @@ public class GameController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyUp(KeyCode.P)) {
+		if (Input.GetKeyUp(KeyCode.Escape)) {
             togglePause();
         }
     }
@@ -30,6 +34,7 @@ public class GameController : MonoBehaviour {
 
     public void togglePause() {
         _isGamePaused = !_isGamePaused;
+		pausePanel.gameObject.SetActive(_isGamePaused);
     }
 
     public void startGame() {

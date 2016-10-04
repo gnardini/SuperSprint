@@ -12,8 +12,14 @@ public class PlayButton : MonoBehaviour {
         bestLapText.text = "Mejor Vuelta: " + StringUtils.floatToTime(bestLap);
     }
 
-    public void PlayGame() {
+    public void PlayAlone() {
+		GameController.playerAmount = 1;
         SceneManager.LoadSceneAsync("Race");
     }
+
+	public void Multiplayer(){
+		GameController.playerAmount = 2;
+		SceneManager.LoadSceneAsync("Race");
+	}
 
 }

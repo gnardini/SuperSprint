@@ -28,8 +28,13 @@ public class BotCar : Car {
         new Vector3(-52f,2.3f,3.0f),
 	};
 	private int i = 0;
+	public bool isBot;
 
 	void Update(){
+		if (!isBot) {
+			base.Update ();
+			return;
+		}
         if (checkPaused()) {
 			return;
 		}
@@ -52,5 +57,12 @@ public class BotCar : Car {
 			}
 			fixedPosition ();
 		}
+	}
+
+
+	protected override Player initPlayer2(){
+		Debug.Log ("LLamame");
+		isBot = GameController.playerAmount == 1;
+		return base.initPlayer2 ();
 	}
 }

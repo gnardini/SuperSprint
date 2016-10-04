@@ -20,7 +20,7 @@ public class Car : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected void Update () {
         if (checkPaused()) {
             return;
         }
@@ -86,13 +86,17 @@ public class Car : MonoBehaviour {
         }
     }
 
+	protected virtual Player initPlayer2(){
+		return Player.two();
+	}
+
     private void initPlayer() {
         switch(playerNumber) {
 		case 1:
             _player = Player.one();
             break;
-        case 2:
-            _player = Player.two();
+		case 2:
+			_player = initPlayer2 ();
             break;
         }
 		_player.setCanvasController (canvasController);
