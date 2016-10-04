@@ -11,11 +11,13 @@ public class GameController : MonoBehaviour {
         return instance;
     }
 
-    void Start() {
-        if (instance != null) {
-            Destroy(instance);
+    private void Awake() {
+        if (instance != null && instance != this) {
+            Destroy(this.gameObject);
         }
+
         instance = this;
+        DontDestroyOnLoad( this.gameObject );
     }
 
     public bool isPaused() {

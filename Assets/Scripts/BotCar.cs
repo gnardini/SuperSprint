@@ -22,7 +22,7 @@ public class BotCar : Car {
         if (checkPaused() || index >= points.Length) {
 			return;
 		}
-		Debug.Log (transform.position);
+		//Debug.Log (transform.position);
 		Vector3 sub = points [index] - transform.position;
 		if (sub.magnitude < 5) {
 			index = (index + 1);

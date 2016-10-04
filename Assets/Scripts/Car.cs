@@ -74,7 +74,9 @@ public class Car : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "checkpoint") {
-			_player.onCheckpoint (int.Parse(other.transform.name.Substring (6)));
+            if (_player != null) {
+                _player.onCheckpoint (int.Parse(other.transform.name.Substring (6)));
+            }
 		}
 	}
 
