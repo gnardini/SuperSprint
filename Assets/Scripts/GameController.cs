@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
     private static GameController instance;
 
 	static public int playerAmount;
+	static public int difficulty = 3;
 
     public EndGame endGamePanel;
 	public PauseGame pausePanel;
