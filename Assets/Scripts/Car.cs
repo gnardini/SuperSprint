@@ -4,6 +4,7 @@ using System.Collections;
 public class Car : MonoBehaviour {
 
     public int playerNumber;
+	public CanvasController canvasController;
 
     private Player _player;
     private Rigidbody _rigidbody;
@@ -36,6 +37,12 @@ public class Car : MonoBehaviour {
         _rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
     }
 
+	void OnTriggerEnter(Collider other) {
+		if (other.tag == "checkpoint") {
+			_player.onCheckpoint (int.Parse(other.transform.name.Substring (6)));
+		}
+	}
+
     void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "wall") {
             _speed *= .5f;
@@ -44,12 +51,13 @@ public class Car : MonoBehaviour {
 
     private void initPlayer() {
         switch(playerNumber) {
-        case 1:
-            _player = Player.ONE;
+		case 1:
+			_player = Player.ONE;
             break;
         case 2:
             _player = Player.TWO;
             break;
         }
+		_player.setCanvasController (canvasController);
     }
 }
