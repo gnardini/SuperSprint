@@ -35,18 +35,8 @@ public class CanvasController : MonoBehaviour {
 		updateTimerText ();
 	}
 
-	private string floatToTime(float secs){
-		if (secs < 0) {
-			return "--:--:--";
-		}
-		int min = (int)(secs / 60);
-		int seg = (int)(secs - min * 60);
-		int ms = (int)((secs - min * 60 - seg) * 100);
-		return min.ToString("D2") + ":" + seg.ToString("D2") + ":" + ms.ToString("D2");
-	}
-
 	private void updateTimerText(){
-		timerText.text = "Tiempo: " + floatToTime (timer);
+		timerText.text = "Tiempo: " + StringUtils.floatToTime (timer);
 	}
 
 	private void updateLapsText(){
@@ -54,7 +44,7 @@ public class CanvasController : MonoBehaviour {
 	}
 
 	private void updateBestText (){
-		bestLapText.text = "Mejor tiempo: " + floatToTime (bestTime);
+        bestLapText.text = "Mejor tiempo: " + StringUtils.floatToTime (bestTime);
 	}
 
 	private void maybeUpdateBestLapText(){
@@ -86,4 +76,9 @@ public class CanvasController : MonoBehaviour {
 			yield return new WaitForSeconds (0.2f);
 		}
     }
+
+    public float getBestLap() {
+        return bestTime;
+    }
+
 }

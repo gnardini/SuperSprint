@@ -5,7 +5,10 @@ public class GameController : MonoBehaviour {
 
     private static GameController instance;
 
+    public EndGame endGamePanel;
+
     private bool _isGamePaused;
+    private bool _isGameFinished;
 
     public static GameController getInstance() {
         return instance;
@@ -13,6 +16,7 @@ public class GameController : MonoBehaviour {
 
     private void Awake() {
         if (instance != null && instance != this) {
+            instance.startGame();
             Destroy(this.gameObject);
         }
 
@@ -20,18 +24,29 @@ public class GameController : MonoBehaviour {
         DontDestroyOnLoad( this.gameObject );
     }
 
+    void Update() {
+        if (Input.GetKeyUp(KeyCode.P)) {
+            togglePause();
+        }
+    }
+
     public bool isPaused() {
-        return _isGamePaused;
+        return _isGamePaused || _isGameFinished;
     }
 
     public void togglePause() {
         _isGamePaused = !_isGamePaused;
     }
 
-    void Update() {
-        if (Input.GetKeyUp(KeyCode.P)) {
-            togglePause();
-        }
+    public void startGame() {
+        _isGameFinished = false;
+        endGamePanel.gameObject.SetActive(false);
+    }
+
+    public void finishGame(int winnerPlayer, float bestLap) {
+        _isGameFinished = true;
+        endGamePanel.gameObject.SetActive(true);
+        endGamePanel.playerWon(winnerPlayer, bestLap);
     }
 
 }
