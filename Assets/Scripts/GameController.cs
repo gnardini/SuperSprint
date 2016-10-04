@@ -47,6 +47,12 @@ public class GameController : MonoBehaviour {
         _isGameFinished = true;
         endGamePanel.gameObject.SetActive(true);
         endGamePanel.playerWon(winnerPlayer, bestLap);
+        updateBestLap(bestLap);
+    }
+
+    private void updateBestLap(float bestLap) {
+        float previousBestLap = PlayerPrefs.GetFloat("best_lap", float.MaxValue);
+        PlayerPrefs.SetFloat("best_lap", Mathf.Min(bestLap, previousBestLap));
     }
 
 }

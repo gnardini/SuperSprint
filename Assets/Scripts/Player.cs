@@ -4,8 +4,13 @@ using UnityEngine.SceneManagement;
 
 public class Player {
 
-    public static readonly Player ONE = new Player(1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
-    public static readonly Player TWO = new Player(2, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
+    public static Player one() {
+        return new Player(1, KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D);
+    }
+
+    public static Player two() {
+        return new Player(2, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow);
+    }
 
     private readonly KeyCode moveUp;
     private readonly KeyCode moveDown;

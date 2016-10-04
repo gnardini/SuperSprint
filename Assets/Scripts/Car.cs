@@ -89,10 +89,10 @@ public class Car : MonoBehaviour {
     private void initPlayer() {
         switch(playerNumber) {
 		case 1:
-			_player = Player.ONE;
+            _player = Player.one();
             break;
         case 2:
-            _player = Player.TWO;
+            _player = Player.two();
             break;
         }
 		_player.setCanvasController (canvasController);
