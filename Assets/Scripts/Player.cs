@@ -28,7 +28,7 @@ public class Player {
         this.moveDown = moveDown;
         this.moveRight = moveRight;
         this.moveLeft = moveLeft;
-		lapsToWin = 2;
+		lapsToWin = 3;
 		lastCheckpoint = 0;
         _gameController = GameController.getInstance();
     }

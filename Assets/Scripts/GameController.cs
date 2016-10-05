@@ -47,7 +47,9 @@ public class GameController : MonoBehaviour {
         _isGameFinished = true;
         endGamePanel.gameObject.SetActive(true);
         endGamePanel.playerWon(winnerPlayer, bestLap);
-        updateBestLap(bestLap);
+		if(GameController.playerAmount == 2 || winnerPlayer == 1){
+			updateBestLap(bestLap);
+		}
     }
 
     private void updateBestLap(float bestLap) {

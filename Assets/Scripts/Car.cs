@@ -32,10 +32,9 @@ public class Car : MonoBehaviour {
 			rotateRight ();
 		if (Input.GetKey (_player.getLeftKey ()))
 			rotateLeft ();
-		if (Input.GetKeyDown (KeyCode.X)) {
-			
+		/*if (Input.GetKeyDown (KeyCode.X)) {
 			Debug.Log ("new Vector3("+transform.position.x.ToString("F1")+"f,"+transform.position.y.ToString("F1")+"f, "+transform.position.z.ToString("F1")+"f),");
-		}
+		}*/
 
 			
 

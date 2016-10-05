@@ -17,8 +17,8 @@ public class CanvasController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		totalLaps = 2;
-		currentLaps = 2;
+		totalLaps = 3;
+		currentLaps = 3;
 		bestTime = -1f;
 		timer = 0f;
 		updateLapsText ();
