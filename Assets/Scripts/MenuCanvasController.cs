@@ -4,44 +4,44 @@ using UnityEngine.UI;
 
 public class MenuCanvasController : MonoBehaviour {
 
-	public PlayButton playAlone;
-	public PlayButton multiplayer;
-	public PlayButton easy;
-	public PlayButton medium;
-	public PlayButton hard;
-	public PlayButton veryHard;
-	public PlayButton back;
-	public Text bestLap;
+	public GameObject menu;
+	public GameObject difficultyMenu;
+	public GameObject helpMenu;
+	public Text bestLapText;
+
+	void Start(){
+		float bestLap = PlayerPrefs.GetFloat("best_lap", -1f);
+		bestLapText.text = "Mejor Vuelta: " + StringUtils.floatToTime(bestLap);
+	}
+
+	private void activeHelpMenu(bool b){
+		helpMenu.gameObject.SetActive (b);
+	}
 
 	private void activeDifficulyMenu(bool b){
-		veryHard.gameObject.SetActive (b);
-		hard.gameObject.SetActive (b);
-		medium.gameObject.SetActive (b);
-		easy.gameObject.SetActive (b);
-		back.gameObject.SetActive (b);
+		difficultyMenu.SetActive (b);
 	}
 
 	private void activeMenu(bool b){
-		playAlone.gameObject.SetActive (b);
-		multiplayer.gameObject.SetActive (b);
-		bestLap.gameObject.SetActive (b);
-	}
-
-	public void disableMenu(){
-		activeMenu (false);
+		menu.SetActive (b);
 	}
 
 	public void enableMenu(){
 		activeMenu (true);
-	}
-
-	public void disableDifficultyMenu(){
 		activeDifficulyMenu (false);
+		activeHelpMenu (false);
 	}
 
 	public void enableDifficultyMenu(){
 		activeDifficulyMenu (true);
+		activeMenu (false);
+		activeHelpMenu (false);
 	}
 
+	public void enableHelp(){
+		activeHelpMenu (true);
+		activeMenu (false);
+		activeDifficulyMenu (false);
+	}
 
 }
