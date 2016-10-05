@@ -6,32 +6,29 @@ public class BotCar : Car {
 	private int index = 0;
 	private double breakFactor;
 	private int steps;
+	private int radius;
 
-	/*private Vector3[] points2 = {
-		new Vector3(10f,2.3f,-6.3f),
-		new Vector3(40f,2.3f,-6.3f),
-		new Vector3(65f,2.3f,0.0f),
-		new Vector3(80f,2.3f,20.0f),
-		new Vector3(80f,2.3f,40.0f),
-		new Vector3(70f,2.3f,60.0f),
-		new Vector3(6f,2.3f,65.0f),
-		new Vector3(-7f,2.3f,77.0f),
-		new Vector3(-7f,2.3f,94.0f),
-		new Vector3(3f,2.3f,115.0f),
-        new Vector3(73f,2.3f,120.0f),
-        new Vector3(87f,2.3f,140.0f),
-        new Vector3(86f,2.3f,154.0f),
-        new Vector3(81f,2.3f,170.0f),
-        new Vector3(59f,2.3f,180.0f),
-        new Vector3(-58f,2.3f,177.0f),
-        new Vector3(-68f,2.3f,169.0f),
-        new Vector3(-77f,2.3f,161.0f),
-        new Vector3(-74f,2.3f,21.0f),
-        new Vector3(-65f,2.3f,9.0f),
-        new Vector3(-52f,2.3f,3.0f),
-	};*/
+	private Vector3[] points;
 
-	private Vector3[] points = {
+	private Vector3[] points2 = {
+		new Vector3(68.8f,1.8f, 7.7f),
+		new Vector3(80.7f,1.8f, 21.0f),
+		new Vector3(75.9f,1.8f, 48.8f),
+		new Vector3(1.9f,1.8f, 64.3f),
+		new Vector3(-11.5f,1.7f, 102.4f),
+		new Vector3(69.1f,1.8f, 127.2f),
+		new Vector3(81.3f,1.8f, 165.9f),
+		new Vector3(54.1f,1.8f, 179.1f),
+		new Vector3(-50.3f,1.8f, 177.5f),
+		new Vector3(-62.1f,1.7f, 173.9f),
+		new Vector3(-73.2f,1.8f, 25.3f),
+		new Vector3(-68.0f,1.8f, 13.4f),
+	};
+
+
+
+
+	private Vector3[] points3 = {
 		new Vector3(38.1f,1.8f, -8.8f), 
 		new Vector3(63.9f,1.8f, -4.9f), 
 		new Vector3(81.7f,1.8f, 6.5f), 
@@ -73,7 +70,7 @@ public class BotCar : Car {
 			return;
 		}
 		Vector3 sub = points [index] - transform.position;
-		if (sub.magnitude < 10) {
+		if (sub.magnitude < radius) {
 			//Debug.Log (points [index]);
             index = (index + 1) % points.Length;
 		} else {
@@ -97,19 +94,31 @@ public class BotCar : Car {
 
 	protected override Player initPlayer2(){
 		isBot = GameController.playerAmount == 1;
-		switch (GameController.difficulty) {
-		case 1:
-			breakFactor = 0.1f;
-			steps = 3;
-			break;
-		case 2:
-			breakFactor = 0.3f;
-			steps = 2;
-			break;
-		case 3:
-			breakFactor = 0.8f;
-			steps = 2;
-			break;
+		if (isBot) {
+			radius = 10;
+			switch (GameController.difficulty) {
+				case 1:
+					breakFactor = 0.1f;
+					steps = 3;
+					points = points3;
+					break;
+				case 2:
+					breakFactor = 0.3f;
+					steps = 2;
+					points = points3;
+					break;
+				case 3:
+					breakFactor = 0.8f;
+					steps = 2;
+					points = points3;
+					break;
+				case 4:
+					breakFactor = 1f;
+					steps = 2;
+					radius = 12;
+					points = points2;
+					break;
+			}
 		}
 		return base.initPlayer2 ();
 	}

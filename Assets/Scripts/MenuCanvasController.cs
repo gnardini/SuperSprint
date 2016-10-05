@@ -9,10 +9,12 @@ public class MenuCanvasController : MonoBehaviour {
 	public PlayButton easy;
 	public PlayButton medium;
 	public PlayButton hard;
+	public PlayButton veryHard;
 	public PlayButton back;
 	public Text bestLap;
 
 	private void activeDifficulyMenu(bool b){
+		veryHard.gameObject.SetActive (b);
 		hard.gameObject.SetActive (b);
 		medium.gameObject.SetActive (b);
 		easy.gameObject.SetActive (b);
