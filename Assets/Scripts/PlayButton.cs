@@ -36,6 +36,12 @@ public class PlayButton : MonoBehaviour {
 		SceneManager.LoadSceneAsync("Race");	
 	}
 
+	public void PlayAloneVeryHard(){
+		GameController.playerAmount = 1;
+		GameController.difficulty = 4;
+		SceneManager.LoadSceneAsync("Race");	
+	}
+
 	public void Back(){
 		controller.disableDifficultyMenu ();
 		controller.enableMenu ();

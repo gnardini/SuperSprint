@@ -4,10 +4,11 @@ using System.Collections;
 
 public class DefaultFont : MonoBehaviour {
 
+	public Font fontToLoad;
+
 	void Start () {
-        Font defaultFont = Resources.Load("Roboto-Medium") as Font;
         foreach (Text text in GetComponentsInChildren<Text>()) {
-            text.font = defaultFont;
+			text.font = fontToLoad;
         }
 	}
 
