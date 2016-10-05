@@ -50,11 +50,11 @@ public class Car : MonoBehaviour {
     }
 
 	protected void rotateLeft(){
-		transform.Rotate(0f, -1.5f, 0f);
+        transform.Rotate(0f, -1.5f * 80 * Time.deltaTime, 0f);
 	}
 
 	protected void rotateRight(){
-		transform.Rotate(0f, 1.5f, 0f);
+        transform.Rotate(0f, 1.5f * 80 * Time.deltaTime, 0f);
 	}
 
 	protected void speedUp(){
