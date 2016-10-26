@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 
 Project("{985AC0F4-949B-BE10-8D0F-C3FF999AA311}") = "SuperSprint", "Assembly-CSharp.csproj", "{81994494-044B-75EF-5EA8-51E5E93D0F9F}"
 EndProject
+Project("{985AC0F4-949B-BE10-8D0F-C3FF999AA311}") = "SuperSprint", "Assembly-CSharp-Editor.csproj", "{1635870A-378D-CA3F-1FD6-E5604D403267}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{81994494-044B-75EF-5EA8-51E5E93D0F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81994494-044B-75EF-5EA8-51E5E93D0F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81994494-044B-75EF-5EA8-51E5E93D0F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1635870A-378D-CA3F-1FD6-E5604D403267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1635870A-378D-CA3F-1FD6-E5604D403267}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1635870A-378D-CA3F-1FD6-E5604D403267}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1635870A-378D-CA3F-1FD6-E5604D403267}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
