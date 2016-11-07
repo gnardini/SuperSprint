@@ -9,7 +9,8 @@ public class RoadCreator : MonoBehaviour
     /// <summary>
     /// Chunks of the road
     /// </summary>
-    public RoadChunk[] roadChunks;
+    public RoadChunk[] roadChunksStartBig;
+	public RoadChunk[] roadChunksStartSmall;
 
     public int matrixSize;
     public Vector2 initialPosition;
@@ -27,13 +28,15 @@ public class RoadCreator : MonoBehaviour
     /// </summary>
     public void Generate()
     {
-        scale = roadChunks[0].transform.localScale.x;
+        scale = roadChunksStartBig[0].transform.localScale.x;
         mountTransform = gameObject.transform;
         mountTransform.position = new Vector3(0, 0.1f, 0);
         chunks = new RoadChunk[matrixSize, matrixSize];
         Vector2 currPosition = initialPosition;
         Vector2 dir = new Vector2(1f, 0f);
-        for (int i=0; i<roadSize; i++)
+		chunks[(int)currPosition.x-1, (int)currPosition.y] = roadChunksStartBig[0];
+		dfs (currPosition, dir, roadSize, true);
+/*        for (int i=0; i<roadSize; i++)
         {
             int roadChunkIdx = getRandomChunkIndex();
 
@@ -46,9 +49,90 @@ public class RoadCreator : MonoBehaviour
             dir = getNewDirection(dir, newGO.turn);
             Debug.Log(dir);
             currPosition += dir;
-        }
-
+        }*/
     }
+
+	private void setMatrix<T>(T[,] matrix, Vector2 position, T value){
+		matrix [(int)position.x, (int)position.y] = value;
+	}
+
+	private T getMatrix<T>(T[,] matrix, Vector2 position){
+		return matrix [(int)position.x, (int)position.y];
+	}
+
+
+	private bool completeTrack(Vector2 position, Vector2 dir){
+		Vector2 finalPosition = initialPosition-new Vector2(1.0f, 0.0f);
+		setMatrix (chunks, finalPosition, null);
+		Vector2[,] previusPosition = new Vector2[matrixSize, matrixSize];
+		Vector2[] direction = { 
+			new Vector2 (0.0f, 1.0f),
+			new Vector2 (0.0f, -1.0f),
+			new Vector2 (1.0f, 0.0f),
+			new Vector2 (-1.0f, 0.0f)
+		};
+
+		setMatrix (previusPosition, position, position - dir);
+		Queue queue = new Queue ();
+		queue.Enqueue (position);
+		Vector2 currPosition = position;
+		while (currPosition != finalPosition && queue.Count!=0) {
+			currPosition = (Vector2)queue.Dequeue();
+			for (int i = 0; i < direction.Length; i++) {
+				Vector2 nextPosition = currPosition + direction [i];
+				if (0 > (int)nextPosition.x || (int)nextPosition.x >= matrixSize)
+					continue;
+				if (0 > (int)nextPosition.y || (int)nextPosition.y >= matrixSize)
+					continue;
+				if(getMatrix(previusPosition, nextPosition)==Vector2.zero  && getMatrix(chunks, nextPosition)==null){
+					setMatrix (previusPosition, nextPosition, currPosition);
+					queue.Enqueue (nextPosition);
+				}
+			}
+		}
+		if (currPosition != finalPosition) {
+			return false;
+		}
+		while (currPosition != position-dir) {
+			RoadChunk newGO = UnityEngine.Object.Instantiate (roadChunksStartBig [0]) as RoadChunk;
+			setupNewRoadChunk (newGO, currPosition, dir);
+			currPosition = getMatrix (previusPosition, currPosition);
+		}
+		return true;
+	}
+
+	//Retorna la nueva dirección.
+	private Vector2 setupNewRoadChunk(RoadChunk newGO, Vector2 position, Vector2 dir){
+		newGO.name = String.Format ("part-{0}-{1}", (int)position.x, (int)position.y);
+		newGO.transform.parent = transform;
+		setChunk (position, newGO);
+		newGO.transform.Rotate (new Vector3 (0, getRotation (dir), 0));
+		return getNewDirection (dir, newGO.turn);
+	}
+
+
+	private bool dfs(Vector2 position, Vector2 dir, int length, bool fat){
+		if (length == 0) {
+			if (getMatrix (chunks, position) != null)
+				return false;
+			return completeTrack(position, dir);
+		}
+		if (chunks [(int)position.x,(int)position.y] == null) {
+			int[] roadChunkIdx = getRandomChunkIndex (fat);
+			RoadChunk[] roadChunks = fat ? roadChunksStartBig : roadChunksStartSmall;
+			for (int i = 0; i < roadChunkIdx.Length; i++) {
+				RoadChunk newGO = UnityEngine.Object.Instantiate (roadChunks [roadChunkIdx[i]]) as RoadChunk;
+				Vector2 newDir = setupNewRoadChunk (newGO, position, dir);
+				//Debug.Log (dir);
+				if (dfs (position + newDir, newDir, length - 1, newGO.endFat)) {
+					return true;
+				}
+				DestroyImmediate (newGO.gameObject);
+				setChunk (position, null);
+			}
+		}
+		return false;
+	}
 
     private Vector2 getNewDirection(Vector2 dir, Direction turn){
         switch(turn){
@@ -74,6 +158,8 @@ public class RoadCreator : MonoBehaviour
 
     private void setChunk(int i, int j, RoadChunk chunk){
         chunks[i, j] = chunk;
+		if (chunk == null)
+			return;
         chunk.transform.localPosition = new Vector3((i - initialPosition.x)*scale, 0, (j-initialPosition.y)*scale);
     }
 
@@ -88,8 +174,20 @@ public class RoadCreator : MonoBehaviour
     }
 
     private int prevIdx = 0;
-    private int getRandomChunkIndex()
-    {
-        return UnityEngine.Random.Range(0, roadChunks.Length);
+	private int[] getRandomChunkIndex(bool fat)
+	{
+		int length = fat ? roadChunksStartBig.Length : roadChunksStartSmall.Length;
+		int[] ans = new int[length];
+		for (int i = 0; i < length; i++) {
+			ans [i] = i;
+		}
+		for (int i = 0; i < 100; i++) {
+			int a = UnityEngine.Random.Range (0, length);	
+			int b = UnityEngine.Random.Range (0, length);	
+			int c = ans [a];
+			ans [a] = ans [b];
+			ans [b] = c;
+		}
+		return ans;
     }
 }
