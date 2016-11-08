@@ -7,6 +7,21 @@ public class PlayButton : MonoBehaviour {
 	
 	public MenuCanvasController controller;
 
+	public void PlaySmallTrack(){
+		GameController.track = 1;
+		SceneManager.LoadSceneAsync ("Race");
+	}
+
+	public void PlayMediumTrack(){
+		GameController.track = 2;
+		SceneManager.LoadSceneAsync ("Race");
+	}
+
+	public void PlayLargeTrack(){
+		GameController.track = 3;
+		SceneManager.LoadSceneAsync ("Race");
+	}
+
     public void PlayAlone() {
 		controller.enableDifficultyMenu ();
     }
@@ -14,26 +29,31 @@ public class PlayButton : MonoBehaviour {
 	public void PlayAloneEasy(){
 		GameController.playerAmount = 1;
 		GameController.difficulty = 1;
-		SceneManager.LoadSceneAsync("Race");	
+		TrackSelect ();
 	}
 
 	public void PlayAloneMedium(){
 		GameController.playerAmount = 1;
 		GameController.difficulty = 2;
-		SceneManager.LoadSceneAsync("Race");	
+		TrackSelect ();
 	}
 
 	public void PlayAloneHard(){
 		GameController.playerAmount = 1;
 		GameController.difficulty = 3;
-		SceneManager.LoadSceneAsync("Race");	
+		TrackSelect ();
 	}
 
 	public void PlayAloneVeryHard(){
 		GameController.playerAmount = 1;
 		GameController.difficulty = 4;
-		SceneManager.LoadSceneAsync("Race");	
+		TrackSelect ();
 	}
+
+	public void TrackSelect (){
+		controller.enableTrackMenu ();
+	}
+		
 
 	public void Back(){
 		controller.enableMenu ();
@@ -41,7 +61,7 @@ public class PlayButton : MonoBehaviour {
 
 	public void Multiplayer(){
 		GameController.playerAmount = 2;
-		SceneManager.LoadSceneAsync("Race");
+		TrackSelect ();
 	}
 
 	public void Help(){

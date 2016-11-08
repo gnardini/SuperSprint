@@ -8,6 +8,11 @@ public class GameController : MonoBehaviour {
 
 	static public int playerAmount;
 	static public int difficulty = 3;
+	static public int track;
+	public GameObject[] tracks;
+	public Vector3[] cameraPosition;
+	public Vector3[] cameraRotation;
+	public Camera _camera;
 
     public EndGame endGamePanel;
 	public PauseGame pausePanel;
@@ -21,6 +26,7 @@ public class GameController : MonoBehaviour {
 
     private void Awake() {
         instance = this;
+		startGame();
     }
 
     void Update() {
@@ -40,7 +46,12 @@ public class GameController : MonoBehaviour {
 
     public void startGame() {
         _isGameFinished = false;
+		for (int i = 0; i < tracks.Length; i++) {
+			tracks [i].SetActive (track == i + 1);
+		}
         endGamePanel.gameObject.SetActive(false);
+		_camera.transform.position = cameraPosition [track-1];
+		_camera.transform.eulerAngles = cameraRotation[track-1];
     }
 
     public void finishGame(int winnerPlayer, float bestLap) {
