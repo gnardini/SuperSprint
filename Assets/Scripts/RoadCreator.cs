@@ -16,6 +16,7 @@ public class RoadCreator : MonoBehaviour
 
     public int matrixSize;
     public Vector2 initialPosition;
+	private GameObject track;
 
     /// <summary>
     /// Size of the road in number of chunks
@@ -30,15 +31,18 @@ public class RoadCreator : MonoBehaviour
     /// </summary>
     public void Generate()
     {
+		
         scale = roadChunksStartBig[0].transform.localScale.x;
         chunks = new RoadChunk[matrixSize, matrixSize];
         Vector2 currPosition = initialPosition;
         Vector2 dir = new Vector2(1f, 0f);
 		chunks[(int)currPosition.x-1, (int)currPosition.y] = roadChunksStartBig[0];
+		track = new GameObject ();
+		track.name = "Track";
 		for (int i = 0; i < 3; i++) {
 			GameObject plane = UnityEngine.Object.Instantiate (planePrefab) as GameObject;
 			plane.name = String.Format ("Plane {0}", i);
-			plane.transform.parent = transform;
+			plane.transform.parent = track.transform;
 			plane.transform.position = new Vector3 (-20.0f + ((i+1)%3)*20, 0.0f, 0.0f);
 		}
 		RoadChunk newGO = UnityEngine.Object.Instantiate (roadChunksStartBig [1]) as RoadChunk;
@@ -141,7 +145,7 @@ public class RoadCreator : MonoBehaviour
 	//Retorna la nueva dirección.
 	private Vector2 setupNewRoadChunk(RoadChunk newGO, Vector2 position, Vector2 dir){
 		newGO.name = String.Format ("part-{0}-{1}", (int)position.x, (int)position.y);
-		newGO.transform.parent = transform;
+		newGO.transform.parent = track.transform;
 		setChunk (position, newGO);
 		newGO.transform.Rotate (new Vector3 (0, getRotation (dir), 0));
 		return getNewDirection (dir, newGO.turn);
