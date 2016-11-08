@@ -12,6 +12,8 @@ public class RoadCreator : MonoBehaviour
     public RoadChunk[] roadChunksStartBig;
 	public RoadChunk[] roadChunksStartSmall;
 
+	public GameObject planePrefab;
+
     public int matrixSize;
     public Vector2 initialPosition;
 
@@ -29,12 +31,16 @@ public class RoadCreator : MonoBehaviour
     public void Generate()
     {
         scale = roadChunksStartBig[0].transform.localScale.x;
-        mountTransform = gameObject.transform;
-        mountTransform.position = new Vector3(0, 0.1f, 0);
         chunks = new RoadChunk[matrixSize, matrixSize];
         Vector2 currPosition = initialPosition;
         Vector2 dir = new Vector2(1f, 0f);
 		chunks[(int)currPosition.x-1, (int)currPosition.y] = roadChunksStartBig[0];
+		for (int i = 0; i < 3; i++) {
+			GameObject plane = UnityEngine.Object.Instantiate (planePrefab) as GameObject;
+			plane.name = String.Format ("Plane {0}", i);
+			plane.transform.parent = transform;
+			plane.transform.position = new Vector3 (-20.0f + ((i+1)%3)*20, 0.0f, 0.0f);
+		}
 		RoadChunk newGO = UnityEngine.Object.Instantiate (roadChunksStartBig [1]) as RoadChunk;
 		setupNewRoadChunk (newGO, currPosition, dir);
 		dfs (currPosition+dir, dir, roadSize, true);
