@@ -9,11 +9,9 @@ public class Car : MonoBehaviour {
     protected GameController _gameController;
     private Player _player;
     private Rigidbody _rigidbody;
-    private float _speed;
 
 	// Use this for initialization
 	void Start () {
-        _speed = 0;
         _rigidbody = GetComponent<Rigidbody>();
         _gameController = GameController.getInstance();
         initPlayer();
@@ -35,10 +33,6 @@ public class Car : MonoBehaviour {
 		/*if (Input.GetKeyDown (KeyCode.X)) {
 			Debug.Log ("new Vector3("+transform.position.x.ToString("F1")+"f,"+transform.position.y.ToString("F1")+"f, "+transform.position.z.ToString("F1")+"f),");
 		}*/
-
-			
-
-		fixedPosition ();
 	}
 
     protected bool checkPaused() {
@@ -49,33 +43,24 @@ public class Car : MonoBehaviour {
     }
 
 	protected void rotateLeft(){
-        transform.Rotate(0f, -1.5f * 80 * Time.deltaTime, 0f);
+        float angle = -1.5f * 80 * Time.deltaTime;
+        transform.Rotate(0f, angle, 0f);
+        _rigidbody.velocity = Quaternion.Euler(0, angle * .8f, 0) * _rigidbody.velocity;
 	}
 
 	protected void rotateRight(){
-        transform.Rotate(0f, 1.5f * 80 * Time.deltaTime, 0f);
+        float angle = 1.5f * 80 * Time.deltaTime;
+        transform.Rotate(0f, angle, 0f);
+        _rigidbody.velocity = Quaternion.Euler(0, angle * .8f, 0) * _rigidbody.velocity;
 	}
 
 	protected void speedUp(){
-		_speed -= 3000 * Time.deltaTime;
+        _rigidbody.AddForce(transform.forward * Time.deltaTime * -3000, ForceMode.Acceleration);
 	}
 
 	protected void speedDown(){
-		_speed += 1000 * Time.deltaTime;
+        _rigidbody.AddForce(transform.forward * Time.deltaTime * 1000, ForceMode.Acceleration);
 	}
-
-	protected void fixedPosition() {
-		transform.position = new Vector3(transform.position.x, 1.75f, transform.position.z);
-		transform.eulerAngles = new Vector3(0f, transform.eulerAngles.y, 0f);
-	}
-
-    void FixedUpdate() {
-        if (_gameController.isPaused()) {
-            return;
-        }
-        _speed *= 0.98f;
-        _rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
-    }
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == "checkpoint") {
@@ -84,12 +69,6 @@ public class Car : MonoBehaviour {
             }
 		}
 	}
-
-    void OnCollisionEnter(Collision collision) {
-        if (collision.collider.tag == "wall") {
-            _speed *= .5f;
-        }
-    }
 
 	protected virtual Player initPlayer2(){
 		return Player.two();

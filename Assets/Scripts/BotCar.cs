@@ -87,7 +87,6 @@ public class BotCar : Car {
 			if ((Mathf.Abs (vectorProd) < breakFactor) || (i++ % steps == 0)) {
 				speedUp ();
 			}
-			fixedPosition ();
 		}
 	}
 
