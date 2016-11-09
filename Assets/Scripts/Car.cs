@@ -10,6 +10,7 @@ public class Car : MonoBehaviour {
     private Player _player;
     private Rigidbody _rigidbody;
     private float _speed;
+	private Vector3 lastPosition;
 
 	// Use this for initialization
 	void Start () {
@@ -32,9 +33,6 @@ public class Car : MonoBehaviour {
 			rotateRight ();
 		if (Input.GetKey (_player.getLeftKey ()))
 			rotateLeft ();
-		/*if (Input.GetKeyDown (KeyCode.X)) {
-			Debug.Log ("new Vector3("+transform.position.x.ToString("F1")+"f,"+transform.position.y.ToString("F1")+"f, "+transform.position.z.ToString("F1")+"f),");
-		}*/
 
 			
 
@@ -70,11 +68,11 @@ public class Car : MonoBehaviour {
 	}
 
     void FixedUpdate() {
-        if (_gameController.isPaused()) {
-            return;
-        }
-        _speed *= 0.98f;
-        _rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
+		if (_gameController.isPaused()) {
+			return;
+		}
+		_speed *= 0.98f;
+		_rigidbody.velocity = transform.forward * _speed * Time.deltaTime;
     }
 
 	void OnTriggerEnter(Collider other) {
@@ -87,7 +85,13 @@ public class Car : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "wall") {
-            _speed *= .5f;
+			Vector3 dir = (-transform.forward);
+			Vector3 norm = (collision.transform.position - transform.position);
+			dir /= dir.magnitude;
+			norm /= norm.magnitude;
+			float vectorProd = dir.x * norm.z - norm.x * dir.z;
+			Debug.Log (vectorProd);
+			_speed *= Mathf.Abs(vectorProd);
         }
     }
 

@@ -23,9 +23,7 @@ public class BotCar : Car {
 		}
 		Vector3 sub = points [index] - transform.position;
 		if (sub.magnitude < radius) {
-			Debug.Log ("reached "+points [index]);
             index = (index + 1) % points.Length;
-			Debug.Log ("index "+index+" "+points [index]);
 		} else {
 			Vector3 dir = -transform.forward;
 			sub /= sub.magnitude;
@@ -48,7 +46,6 @@ public class BotCar : Car {
 		GameObject track = GameObject.Find(string.Format("Track{0}", GameController.track));
 		points = new Vector3[track.transform.childCount - 3];
 		int[] forwardSize = { 10, 15, 25 };
-		Debug.Log (track.transform.childCount);
 		int forward = forwardSize[GameController.track-1];			
 		for (int i = 0; i <= forward; i++) {
 			points [i] = track.transform.GetChild(i+3).position;
@@ -59,11 +56,13 @@ public class BotCar : Car {
 	}
 
 	private void duplicatePoints(){
-		Vector3[] points2 = new Vector3[points.Length * 2];
+		Vector3[] points2 = new Vector3[2*points.Length];
 		for (int i = 0; i < points.Length; i++) {
+			//points2 [i] = (points [i] + points [(i + 1) % points.Length]) / 2;
 			points2 [2 * i] = points [i];
 			points2 [2 * i + 1] = (points [i] + points [(i + 1)%points.Length]) / 2;
 		}
+		points = points2;
 	}
 
 
@@ -71,7 +70,6 @@ public class BotCar : Car {
 		isBot = GameController.playerAmount == 1;
 		fillPoints ();
 		if (isBot) {
-			radius = 10;
 			switch (GameController.difficulty) {
 				case 1:
 					breakFactor = 0.1f;
@@ -84,10 +82,9 @@ public class BotCar : Car {
 					radius = 20;
 					break;
 				case 3:
-					duplicatePoints ();
-					breakFactor = 0.5f;
+					breakFactor = 0.4f;
 					steps = 2;
-					radius = 24;
+					radius = 23;
 					break;
 			}
 		}
