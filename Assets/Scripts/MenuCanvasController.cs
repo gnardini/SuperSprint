@@ -11,8 +11,13 @@ public class MenuCanvasController : MonoBehaviour {
 	public Text bestLapText;
 
 	void Start(){
-		float bestLap = PlayerPrefs.GetFloat("best_lap", -1f);
-		bestLapText.text = "Mejor Vuelta: " + StringUtils.floatToTime(bestLap);
+		float bestSmallLap = PlayerPrefs.GetFloat("best_lap_small", -1f);
+        float bestMediumLap = PlayerPrefs.GetFloat("best_lap_medium", -1f);
+        float bestLargeLap = PlayerPrefs.GetFloat("best_lap_large", -1f);
+		bestLapText.text = 
+            StringUtils.floatToTime(bestSmallLap) +
+            "\n" + StringUtils.floatToTime(bestMediumLap) +
+            "\n" + StringUtils.floatToTime(bestLargeLap);
 	}
 
 	private void activeHelpMenu(bool b){

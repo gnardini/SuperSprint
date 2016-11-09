@@ -50,9 +50,10 @@ public class Player {
     }
 
 	public void onCheckpoint(int index){
+        var totalLaps = 3;
 
 		// Forward
-		if ((lastCheckpoint + 1) % 3 == index) {
+        if ((lastCheckpoint + 1) % totalLaps == index) {
 			if (index == 0) {
 				lapsToWin--;
 				canvasController.updateLaps (lapsToWin);
@@ -64,7 +65,7 @@ public class Player {
 		}
 
 		// Backwards
-		if ((lastCheckpoint - 1 + 3) % 3 == index) {
+        if ((lastCheckpoint - 1 + totalLaps) % totalLaps == index) {
 			if (lastCheckpoint == 0) {
 				lapsToWin++;
 			}

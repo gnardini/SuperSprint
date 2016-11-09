@@ -6,6 +6,8 @@ public class GameController : MonoBehaviour {
 
     private static GameController instance;
 
+    private static string[] TRACKS = { "small", "medium", "large" };
+
 	static public int playerAmount;
 	static public int difficulty = 3;
 	static public int track;
@@ -64,8 +66,10 @@ public class GameController : MonoBehaviour {
     }
 
     private void updateBestLap(float bestLap) {
-        float previousBestLap = PlayerPrefs.GetFloat("best_lap", float.MaxValue);
-        PlayerPrefs.SetFloat("best_lap", Mathf.Min(bestLap, previousBestLap));
+        var trackString = TRACKS[track - 1];
+        var bestLapString = "best_lap_" + trackString;
+        float previousBestLap = PlayerPrefs.GetFloat(bestLapString, float.MaxValue);
+        PlayerPrefs.SetFloat(bestLapString, Mathf.Min(bestLap, previousBestLap));
     }
 
 }
