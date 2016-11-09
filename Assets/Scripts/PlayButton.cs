@@ -44,12 +44,6 @@ public class PlayButton : MonoBehaviour {
 		TrackSelect ();
 	}
 
-	public void PlayAloneVeryHard(){
-		GameController.playerAmount = 1;
-		GameController.difficulty = 4;
-		TrackSelect ();
-	}
-
 	public void TrackSelect (){
 		controller.enableTrackMenu ();
 	}
